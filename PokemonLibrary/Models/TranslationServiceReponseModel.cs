@@ -19,9 +19,14 @@ namespace PokemonLibrary.Models
 		public string Translation;
 	}
 
+	public class TranslateError
+	{
+		public Error Error;
+	}
+
 	public class Error
 	{
-		public string Code;
-		public string Message;
+		public string code;
+		public string message;
 	}
 }

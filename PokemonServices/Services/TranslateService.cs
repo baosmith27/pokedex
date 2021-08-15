@@ -73,11 +73,11 @@ namespace PokemonServices.Services
 				else
 				{
 					var jsonResponse = await response.Content.ReadAsStringAsync();
-					var error = JsonConvert.DeserializeObject<Error>(jsonResponse);
+					var error = JsonConvert.DeserializeObject<TranslateError>(jsonResponse);
 					if (error != null)
 					{
-						LastErrorCode = Convert.ToInt32(error.Code);
-						_logger.LogError($"{error.Code} - {error.Message}");
+						LastErrorCode = Convert.ToInt32(error.Error.code);
+						_logger.LogError($"{error.Error.code} - {error.Error.message}");
 					}
 				}
 			}
