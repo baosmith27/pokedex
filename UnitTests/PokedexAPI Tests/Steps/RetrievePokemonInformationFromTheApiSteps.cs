@@ -48,7 +48,7 @@ namespace UnitTests.PokedexAPI_Tests.Steps
         {
             Setupmocks();
 
-            var response = _controller.Pokemon(pokemonName);            
+            var response = await _controller.Pokemon(pokemonName);            
             
             var statusCodeResult = (response as StatusCodeResult);
             if(statusCodeResult != null) 
@@ -91,7 +91,7 @@ namespace UnitTests.PokedexAPI_Tests.Steps
 
         private void Setupmocks()
 		{            
-            _mockPokemonService.Setup(t => t.GetPokemon(It.IsAny<string>())).Returns((string name) => {
+            _mockPokemonService.Setup(t => t.GetPokemon(It.IsAny<string>())).ReturnsAsync((string name) => {
                 return _testCharacters.Where(x => x.Name == name).FirstOrDefault();
             });
         }

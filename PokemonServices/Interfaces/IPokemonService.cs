@@ -1,9 +1,10 @@
 ﻿using PokemonLibrary.Models;
+using System.Threading.Tasks;
 
 namespace PokemonServices.Interfaces
 {
 	public interface IPokemonService
 	{
-		Pokemon GetPokemon(string name);
+		Task<Pokemon> GetPokemon(string name);
 	}
 }

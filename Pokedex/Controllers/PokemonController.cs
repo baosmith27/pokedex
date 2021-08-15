@@ -28,9 +28,9 @@ namespace Pokedex.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Pokemon(string name)
+		public async Task<ActionResult> Pokemon(string name)
 		{
-			var pokemon = _pokemonService.GetPokemon(name);
+			var pokemon = await _pokemonService.GetPokemon(name);
 			if (pokemon == null)
 				return NotFound();
 			else
@@ -39,7 +39,7 @@ namespace Pokedex.Controllers
 
 		[HttpGet]
 		[Route("translated")]
-		public ActionResult PokemonTranslated(string name)
+		public async Task<ActionResult> PokemonTranslated(string name)
 		{
 			var pokemon = _pokemonService.GetPokemon(name);
 			if (pokemon == null)
