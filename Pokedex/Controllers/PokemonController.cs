@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,23 +28,25 @@ namespace Pokedex.Controllers
 		}
 
 		[HttpGet]
-		public Pokemon Pokemon(string name)
+		public ActionResult Pokemon(string name)
 		{
-			return GetPokemon(name);
+			var pokemon = _pokemonService.GetPokemon(name);
+			if (pokemon == null)
+				return NotFound();
+			else
+				return Ok(pokemon);
 		}
 
 		[HttpGet]
 		[Route("translated")]
-		public Pokemon PokemonTranslated(string name)
+		public ActionResult PokemonTranslated(string name)
 		{
-			var pokemon = GetPokemon(name);
-
-			return pokemon;
+			var pokemon = _pokemonService.GetPokemon(name);
+			if (pokemon == null)
+				return NotFound();
+			else
+				return Ok(pokemon);
 		}
-
-		private Pokemon GetPokemon(string name)
-		{
-			return _pokemonService.GetPokemon(name);
-		}
+		
 	}
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PokemonLibrary\PokemonLibrary.csproj" />
     <ProjectReference Include="..\PokemonServices\PokemonServices.csproj" />
   </ItemGroup>

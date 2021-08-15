@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Pokedex.Controllers;
@@ -7,6 +8,8 @@ using PokemonServices.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -19,6 +22,7 @@ namespace UnitTests.PokedexAPI_Tests.Steps
         private PokemonController _controller;
         private List<Pokemon> _testCharacters;
         private Mock<IPokemonService> _mockPokemonService;
+        private int _controllerStatusCode;
 
         public RetrievePokemonInformationFromTheApiSteps()
 		{            
@@ -40,11 +44,19 @@ namespace UnitTests.PokedexAPI_Tests.Steps
         }
 
         [When(@"I get pokemon information for '(.*)'")]
-        public void WhenIGetPokemonInformationFor(string pokemonName)
+        public async Task WhenIGetPokemonInformationFor(string pokemonName)
         {
             Setupmocks();
 
-            _pokemonCharacterRetrieved = _controller.Pokemon(pokemonName);
+            var response = _controller.Pokemon(pokemonName);            
+            
+            var statusCodeResult = (response as StatusCodeResult);
+            if(statusCodeResult != null) 
+                _controllerStatusCode = statusCodeResult.StatusCode;
+            
+            var result = (response as OkObjectResult);
+            if(result != null)
+                _pokemonCharacterRetrieved = (result.Value as Pokemon);
         }
         
         [Then(@"the description should be '(.*)'")]
@@ -58,6 +70,13 @@ namespace UnitTests.PokedexAPI_Tests.Steps
         {
             Assert.Equal(expectedIsLegendaryStatus, _pokemonCharacterRetrieved.is_legendary);
         }
+
+        [Then(@"the return code should be '(.*)'")]
+        public void ThenTheReturnCodeShouldBe(int expectedStatusCode)
+        {
+            Assert.Equal(expectedStatusCode, _controllerStatusCode);
+        }
+
 
         private PokemonController CreateController()
 		{
