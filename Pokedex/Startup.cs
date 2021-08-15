@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using PokemonLibrary.Models;
 using PokemonServices;
 using PokemonServices.Interfaces;
+using PokemonServices.Services;
 
 namespace Pokedex
 {
@@ -30,7 +31,8 @@ namespace Pokedex
 		{
 			services.Configure<APISettings>(Configuration.GetSection("APISettings"));
 			services.AddControllers();
-			services.AddTransient<IPokemonService>();
+			services.AddTransient<IPokemonService, PokemonService>();			
+			services.AddTransient<ITranslateService, TranslateService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

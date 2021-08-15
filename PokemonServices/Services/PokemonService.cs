@@ -15,7 +15,7 @@ namespace PokemonServices
 	{
 		private readonly string _url;
 		private ILogger<PokemonService> _logger;
-
+		
 		public PokemonService(IOptions<APISettings> apiSettings, ILogger<PokemonService> logger)
 		{
 			_url = apiSettings.Value.pokemon_api_url;
@@ -30,7 +30,7 @@ namespace PokemonServices
 				return null;
 			
 			return new Pokemon { Name = name, Description = pokemonFromAPI.GetEnglishDescription(), Habitat = pokemonFromAPI.habitat.name, is_legendary = pokemonFromAPI.is_legendary };
-		}
+		}		
 
 		private async Task<PokemonSpecies> GetPokemonFromApi(string name)
 		{
@@ -54,5 +54,6 @@ namespace PokemonServices
 			}
 		}
 
+		
 	}
 }
